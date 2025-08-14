@@ -12,6 +12,7 @@ export const globalErrorHandler = (
 ) => {
     res.status(err.statusCode ?? StatusCodes.INTERNAL_SERVER_ERROR).json({
         success: false,
+        statusCode: err.statusCode ?? StatusCodes.INTERNAL_SERVER_ERROR,
         message: err.message || "Internal Server Error",
         ...(err.error ? { error: err.error } : {}),
     });

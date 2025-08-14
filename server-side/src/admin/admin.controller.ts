@@ -1,7 +1,65 @@
 import type { Request, Response, NextFunction } from "express";
-import { createError } from "../utils/index.js";
+import { createError, genToken } from "../utils/index.js";
 import { StatusCodes } from "http-status-codes";
 import { GuideModel } from "../models/guide.js";
+import { cookieOptions } from "../middlewares/auth.middleware.js";
+
+// Login Admin (Uses .env credentials)
+export const loginAdmin = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const { username, password } = req.body;
+
+    try {
+        const matched =
+            username &&
+            password &&
+            username === process.env.ADMIN_USERNAME &&
+            password === process.env.ADMIN_PASSWORD;
+
+        if (!matched)
+            return next(
+                createError("Invalid Credentials", StatusCodes.UNAUTHORIZED)
+            );
+
+        const userData = {
+            username: "Admin",
+            profilePicture: "https://i.ibb.co.com/LDCTnLbX/2.jpg",
+        };
+
+        const token = genToken({
+            username: userData.username,
+            role: "admin",
+        });
+
+        res.cookie("access_token", token, cookieOptions)
+            .status(StatusCodes.OK)
+            .json({
+                success: true,
+                statusCode: StatusCodes.OK,
+                message: "Login Successful!",
+                ...userData,
+            });
+    } catch (e) {
+        const error = new Error("Failed to Login");
+        next(error);
+    }
+};
+
+/* Private */
+export const logoutAdmin = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    res.clearCookie("access_token", cookieOptions).status(StatusCodes.OK).json({
+        success: true,
+        statusCode: StatusCodes.OK,
+        message: "Logout Successful",
+    });
+};
 
 // Create new Guide
 export const createGuide = async (

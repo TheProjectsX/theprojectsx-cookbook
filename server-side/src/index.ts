@@ -1,4 +1,4 @@
-import express, { type Request, type Response } from "express";
+import express, { NextFunction, type Request, type Response } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
@@ -12,6 +12,7 @@ import AdminRoutes from "./admin/admin.routes.js";
 
 // Middleware
 import { checkAdminAuthorization } from "./middlewares/auth.middleware.js";
+import { createError } from "./utils/index.js";
 
 // Configure App
 dotenv.config({ quiet: true });
@@ -37,6 +38,11 @@ app.use("/navigation", NavigationRoutes);
 
 // Admin Routes
 app.use("/admin", checkAdminAuthorization, AdminRoutes);
+
+// 404 - Page not found
+app.use((req: Request, res: Response, next: NextFunction) => {
+    next(createError("Not Found", 404));
+});
 
 // Global Error Handler
 app.use(globalErrorHandler);
