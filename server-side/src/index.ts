@@ -7,7 +7,10 @@ import { globalErrorHandler } from "./middlewares/error.middleware.js";
 
 // Routes
 import GuideRoutes from "./guides/guides.routes.js";
+import NavigationRoutes from "./nav/nav.routes.js";
 import AdminRoutes from "./admin/admin.routes.js";
+
+// Middleware
 import { checkAdminAuthorization } from "./middlewares/auth.middleware.js";
 
 // Configure App
@@ -28,6 +31,9 @@ app.get("/", async (req: Request, res: Response) => {
 
 // Guides Routes
 app.use("/guides", GuideRoutes);
+
+// Navigation Routes
+app.use("/navigation", NavigationRoutes);
 
 // Admin Routes
 app.use("/admin", checkAdminAuthorization, AdminRoutes);
