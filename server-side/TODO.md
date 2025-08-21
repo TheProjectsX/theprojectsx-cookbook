@@ -1,2 +1,2 @@
--   Create validators
+-   Create validators [X]
 -   Maybe add search for Snippets

@@ -1,4 +1,5 @@
 import express from "express";
+// Route Controllers
 import {
     createSnippet,
     deleteSnippet,
@@ -8,20 +9,41 @@ import {
     registerUser,
     updateSnippet,
 } from "./user.controller.js";
+
+// Validation Schemas
+import {
+    loginSchema,
+    registerSchema,
+    createSnippetSchema,
+    updateSnippetSchema,
+} from "../validators/body.validator.js";
+
+// MiddleWares
 import {
     checkAlreadyLoggedIn,
     checkUserAuthentication,
 } from "../middlewares/auth.middleware.js";
+import { validateSchema } from "../middlewares/validator.middleware.js";
 
 const router = express.Router();
 
 /* Public Routes */
 
 // Register new User
-router.post("/register", checkAlreadyLoggedIn, registerUser);
+router.post(
+    "/register",
+    checkAlreadyLoggedIn,
+    validateSchema(registerSchema),
+    registerUser
+);
 
 // Login User
-router.post("/login", checkAlreadyLoggedIn, loginUser);
+router.post(
+    "/login",
+    checkAlreadyLoggedIn,
+    validateSchema(loginSchema),
+    loginUser
+);
 
 /* Private Routes */
 
@@ -29,13 +51,23 @@ router.post("/login", checkAlreadyLoggedIn, loginUser);
 router.get("/logout", checkUserAuthentication, logoutUser);
 
 // Create new Snippet
-router.post("/me/snippets", checkUserAuthentication, createSnippet);
+router.post(
+    "/me/snippets",
+    checkUserAuthentication,
+    validateSchema(createSnippetSchema),
+    createSnippet
+);
 
 // Get all Snippets
 router.get("/me/snippets", checkUserAuthentication, getSnippets);
 
 // Update a Snippet
-router.put("/me/snippets/:id", checkUserAuthentication, updateSnippet);
+router.put(
+    "/me/snippets/:id",
+    checkUserAuthentication,
+    validateSchema(updateSnippetSchema),
+    updateSnippet
+);
 
 // Delete a Snippet
 router.delete("/me/snippets/:id", checkUserAuthentication, deleteSnippet);
