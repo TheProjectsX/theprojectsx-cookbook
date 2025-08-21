@@ -8,10 +8,14 @@ import { globalErrorHandler } from "./middlewares/error.middleware.js";
 // Routes
 import GuideRoutes from "./guides/guides.routes.js";
 import NavigationRoutes from "./nav/nav.routes.js";
+import UserRoutes from "./user/user.routes.js";
 import AdminRoutes from "./admin/admin.routes.js";
 
 // Middleware
-import { checkAdminAuthorization } from "./middlewares/auth.middleware.js";
+import {
+    checkAdminAuthorization,
+    checkUserAuthentication,
+} from "./middlewares/auth.middleware.js";
 import { createError } from "./utils/index.js";
 
 // Configure App
@@ -36,8 +40,16 @@ app.use("/guides", GuideRoutes);
 // Navigation Routes
 app.use("/navigation", NavigationRoutes);
 
+// User Routes (Injecting in root level, cause the sub routes handled in the router)
+app.use("/", UserRoutes);
+
 // Admin Routes
-app.use("/admin", checkAdminAuthorization, AdminRoutes);
+app.use(
+    "/admin",
+    checkUserAuthentication,
+    checkAdminAuthorization,
+    AdminRoutes
+);
 
 // 404 - Page not found
 app.use((req: Request, res: Response, next: NextFunction) => {

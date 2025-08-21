@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import { createError, genToken } from "../utils/index.js";
+import { createError } from "../utils/index.js";
 import { StatusCodes } from "http-status-codes";
 import { GuideModel } from "../models/guide.js";
 

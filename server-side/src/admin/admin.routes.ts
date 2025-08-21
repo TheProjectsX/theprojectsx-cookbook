@@ -1,34 +1,15 @@
 import express from "express";
 import { createGuide, deleteGuide, updateGuide } from "./admin.controller.js";
-import {
-    checkAdminAuthorization,
-    checkUserAuthentication,
-} from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
 // Create Guide
-router.post(
-    "/guides",
-    checkUserAuthentication,
-    checkAdminAuthorization,
-    createGuide
-);
+router.post("/guides", createGuide);
 
 // Update Guide
-router.put(
-    "/guide/:id",
-    checkUserAuthentication,
-    checkAdminAuthorization,
-    updateGuide
-);
+router.put("/guide/:id", updateGuide);
 
 // Delete Guide
-router.delete(
-    "/guide/:id",
-    checkUserAuthentication,
-    checkAdminAuthorization,
-    deleteGuide
-);
+router.delete("/guide/:id", deleteGuide);
 
 export default router;
