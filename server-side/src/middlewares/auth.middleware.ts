@@ -88,13 +88,7 @@ export const checkAdminAuthorization = async (
     const user = req.user;
 
     if (user?.role !== "admin") {
-        return next(
-            createError(
-                "Unauthorized Request",
-                StatusCodes.FORBIDDEN,
-                "You must be an Admin to perform this action"
-            )
-        );
+        return next(createError("Unauthorized Request", StatusCodes.FORBIDDEN));
     }
 
     next();

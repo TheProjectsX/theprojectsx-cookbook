@@ -21,7 +21,7 @@ export const createGuideSchema = z.object({
     title: z.string(),
     content: z.union([
         z.record(z.string(), z.any()),
-        z.record(z.string(), z.any()),
+        z.array(z.record(z.string(), z.any())),
     ]),
 });
 
@@ -33,7 +33,10 @@ export const updateGuideSchema = z.object({
     tag: z.string().regex(/^\S+$/, "Tag should not contain spaces!").optional(),
     title: z.string().optional(),
     content: z
-        .union([z.record(z.string(), z.any()), z.record(z.string(), z.any())])
+        .union([
+            z.record(z.string(), z.any()),
+            z.array(z.record(z.string(), z.any())),
+        ])
         .optional(),
 });
 

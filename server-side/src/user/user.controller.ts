@@ -41,9 +41,19 @@ export const registerUser = async (
                 message: "Registration Successful!",
                 ...userData,
             });
-    } catch (e) {
-        const error = new Error("Failed to Create Account");
-        next(error);
+    } catch (error: any) {
+        if (error.code === 11000) {
+            const field = Object.keys(error.keyValue)[0];
+            next(
+                createError(
+                    "Failed to Create Account",
+                    StatusCodes.BAD_REQUEST,
+                    `${field} already exists`
+                )
+            );
+        } else {
+            next(createError("Failed to Create Account"));
+        }
     }
 };
 
@@ -188,7 +198,7 @@ export const updateSnippet = async (
     try {
         const response = await SnippetModel.findOneAndUpdate(
             {
-                id: snippetId,
+                _id: snippetId,
                 user: userId,
             },
             { title, snippet }
@@ -236,7 +246,7 @@ export const deleteSnippet = async (
 
     try {
         const response = await SnippetModel.findOneAndDelete({
-            id: snippetId,
+            _id: snippetId,
             user: userId,
         });
 
