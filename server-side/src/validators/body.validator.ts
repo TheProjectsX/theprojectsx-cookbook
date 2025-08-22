@@ -16,20 +16,26 @@ export const loginSchema = z.object({
 
 // Guide / Post / Main Content validators
 export const createGuideSchema = z.object({
+    category: z.string().optional(),
+    tag: z.string().optional(),
     title: z.string(),
+});
+
+export const updateGuideSchema = z.object({
+    title: z.string().optional(),
+});
+
+// Guide Section validators
+export const createSectionSchema = z.object({
+    title: z.string().min(5).optional(),
     content: z.union([
         z.record(z.string(), z.any()),
         z.array(z.record(z.string(), z.any())),
     ]),
 });
 
-export const updateGuideSchema = z.object({
-    category: z
-        .string()
-
-        .optional(),
-    tag: z.string().optional(),
-    title: z.string().optional(),
+export const updateSectionSchema = z.object({
+    title: z.string().min(5).optional(),
     content: z
         .union([
             z.record(z.string(), z.any()),

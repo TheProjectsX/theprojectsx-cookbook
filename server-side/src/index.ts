@@ -53,7 +53,7 @@ app.use(
 
 // 404 - Page not found
 app.use((req: Request, res: Response, next: NextFunction) => {
-    next(createError("Not Found", 404));
+    next(createError("Route Not Found", 404));
 });
 
 // Global Error Handler

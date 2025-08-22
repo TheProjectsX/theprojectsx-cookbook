@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, Types } from "mongoose";
 
 const guideSchema = new Schema(
     {
@@ -11,7 +11,7 @@ const guideSchema = new Schema(
             required: true,
         },
         title: { type: String, required: true },
-        content: { type: Object, required: true },
+        sections: [{ type: Types.ObjectId, ref: "Section" }],
     },
     { timestamps: true }
 );

@@ -7,12 +7,13 @@ const categorySchema = new Schema(
             required: true,
             unique: true,
         },
-        tags: {
-            type: Object,
-            default: [],
-        },
+        tags: [
+            {
+                type: String,
+            },
+        ],
     },
     { timestamps: true }
 );
 
-export const CategoryModel = model("category", categorySchema);
+export const CategoryModel = model("Category", categorySchema);

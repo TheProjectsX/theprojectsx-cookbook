@@ -26,13 +26,13 @@ export const getNavigationRoutes = async (
                 (route) => route.category === doc.category
             );
             if (existing) {
-                if (!existing.tags.includes(doc.tag)) {
-                    existing.tags.push(doc.tag);
+                if (!existing.tags.includes(doc.tag as string)) {
+                    existing.tags.push(doc.tag as string);
                 }
             } else {
                 navigationRoutes.push({
-                    category: doc.category,
-                    tags: [doc.tag],
+                    category: doc.category as string,
+                    tags: [doc.tag as string],
                 });
             }
         });
@@ -60,7 +60,8 @@ export const getCategories = async (
     next: NextFunction
 ) => {
     try {
-        const categories = CategoryModel.find();
+        const categories = await CategoryModel.find();
+
         res.status(StatusCodes.OK).json({
             success: true,
             message: "Categories parsed",
