@@ -1,7 +1,9 @@
 -   Create validators [X]
--   Maybe add search for Snippets
+-   Maybe add search for Guides
 -   In Login Route, Fix the Validation to return Auth Error
--   Create separate table for Category
+-   Create separate table for Category [X]
+    -   As well as, we are maintaining the sync with the tags across `GuideModel` and `CategoryModel`.
+    -   `Category` table also contains `tags` of every `tag` under it
 
 ## Explore the Idea:
 

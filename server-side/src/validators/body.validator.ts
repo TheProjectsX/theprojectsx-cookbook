@@ -16,8 +16,6 @@ export const loginSchema = z.object({
 
 // Guide / Post / Main Content validators
 export const createGuideSchema = z.object({
-    category: z.string().regex(/^\S+$/, "Category should not contain spaces!"),
-    tag: z.string().regex(/^\S+$/, "Tag should not contain spaces!"),
     title: z.string(),
     content: z.union([
         z.record(z.string(), z.any()),
@@ -28,9 +26,9 @@ export const createGuideSchema = z.object({
 export const updateGuideSchema = z.object({
     category: z
         .string()
-        .regex(/^\S+$/, "Category should not contain spaces!")
+
         .optional(),
-    tag: z.string().regex(/^\S+$/, "Tag should not contain spaces!").optional(),
+    tag: z.string().optional(),
     title: z.string().optional(),
     content: z
         .union([

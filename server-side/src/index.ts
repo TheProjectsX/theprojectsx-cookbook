@@ -7,7 +7,7 @@ import { globalErrorHandler } from "./middlewares/error.middleware.js";
 
 // Routes
 import GuideRoutes from "./guides/guides.routes.js";
-import NavigationRoutes from "./nav/nav.routes.js";
+import InfoRoutes from "./info/info.routes.js";
 import UserRoutes from "./user/user.routes.js";
 import AdminRoutes from "./admin/admin.routes.js";
 
@@ -37,8 +37,8 @@ app.get("/", async (req: Request, res: Response) => {
 // Guides Routes
 app.use("/guides", GuideRoutes);
 
-// Navigation Routes
-app.use("/navigation", NavigationRoutes);
+// Information Routes
+app.use("/info", InfoRoutes);
 
 // User Routes (Injecting in root level, cause the sub routes handled in the router)
 app.use("/", UserRoutes);
