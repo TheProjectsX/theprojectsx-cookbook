@@ -7,6 +7,9 @@ import {
     deleteCategory,
     deleteGuide,
     deleteSection,
+    getCategories,
+    getGuide,
+    getSection,
     updateCategory,
     updateGuide,
     updateSection,
@@ -30,6 +33,9 @@ const router = express.Router();
 // Create Category
 router.post("/categories", createCategory);
 
+// Get Categories
+router.get("/categories", getCategories);
+
 // Update Category
 router.put("/categories/:id", updateCategory);
 
@@ -40,6 +46,9 @@ router.delete("/categories/:id", deleteCategory);
 
 // Create Guide
 router.post("/guides", validateSchema(createGuideSchema), createGuide);
+
+// Get single Guide
+router.get("/guides/:id", getGuide);
 
 // Update Guide
 router.put("/guides/:id", validateSchema(updateGuideSchema), updateGuide);
@@ -55,6 +64,9 @@ router.post(
     validateSchema(createSectionSchema),
     createSection
 );
+
+// Get single Section
+router.get("/sections/:id", getSection);
 
 // Update Section
 router.put("/sections/:id", validateSchema(updateSectionSchema), updateSection);

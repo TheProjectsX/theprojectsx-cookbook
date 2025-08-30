@@ -113,6 +113,37 @@ export const logoutUser = async (
     });
 };
 
+// Get all Categories of Snippets
+export const getCategories = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const userId = req.user?.id;
+
+    try {
+        const categories = await SnippetModel.find(
+            { user: userId },
+            { _id: 0, category: 1 }
+        );
+
+        res.status(StatusCodes.OK).json({
+            success: true,
+            statusCode: StatusCodes.OK,
+            message: "Categories parsed successfully",
+            data: categories,
+        });
+    } catch (error: any) {
+        next(
+            createError(
+                "Failed to get Categories",
+                StatusCodes.INTERNAL_SERVER_ERROR,
+                error.message
+            )
+        );
+    }
+};
+
 // Create new Snippet
 export const createSnippet = async (
     req: Request,
@@ -155,14 +186,33 @@ export const getSnippets = async (
     next: NextFunction
 ) => {
     const userId = req.user?.id;
+    const searchParams = req.query;
+    const limit = parseInt(String(searchParams.limit ?? 10));
+    const page = parseInt(String(searchParams.page ?? 1));
+    let skip = limit * (page - 1);
+    skip = isNaN(skip) || skip < 1 ? 0 : skip;
 
     try {
-        const snippets = await SnippetModel.find({ user: userId });
+        const snippets = await SnippetModel.find({ user: userId })
+            .skip(skip)
+            .limit(isNaN(limit) ? 10 : limit);
+
+        const totalCount = await SnippetModel.estimatedDocumentCount({
+            user: userId,
+        });
+        const pagination = {
+            has_next_page: totalCount > skip + snippets.length,
+            current_page: page,
+            current_count: snippets.length,
+            total_count: totalCount,
+            limit,
+        };
 
         res.status(StatusCodes.OK).json({
             success: true,
             statusCode: StatusCodes.OK,
             message: "Snippets parsed successfully",
+            pagination,
             data: snippets,
         });
     } catch (error: any) {

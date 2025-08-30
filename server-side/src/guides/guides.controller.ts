@@ -14,7 +14,7 @@ export const getGuidePage = async (
     try {
         const response = await GuideModel.aggregate(
             getGuidePagePipeline(category, tag)
-        );
+        )
         if (response.length === 0) {
             return next(createError("Guide not Found", StatusCodes.NOT_FOUND));
         }

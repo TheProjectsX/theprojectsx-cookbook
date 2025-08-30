@@ -49,6 +49,32 @@ export const createCategory = async (
     }
 };
 
+// Get Categories
+export const getCategories = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const categories = await CategoryModel.find();
+
+        res.status(StatusCodes.OK).json({
+            success: true,
+            statusCode: StatusCodes.OK,
+            message: "Categories parsed successfully",
+            data: categories,
+        });
+    } catch (error: any) {
+        next(
+            createError(
+                "Failed to get Categories",
+                StatusCodes.INTERNAL_SERVER_ERROR,
+                error.message
+            )
+        );
+    }
+};
+
 // Update Category
 export const updateCategory = async (
     req: Request,
@@ -205,6 +231,47 @@ export const createGuide = async (
     }
 };
 
+// Get single Guide
+export const getGuide = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return next(
+            createError("Validation error occurred.", StatusCodes.BAD_REQUEST, {
+                field: "id",
+                message: "Invalid Guide ID provided",
+            })
+        );
+    }
+
+    try {
+        const guide = await GuideModel.findById(id);
+
+        if (!guide) {
+            return next(createError("Guide not Found", StatusCodes.NOT_FOUND));
+        }
+
+        res.status(StatusCodes.OK).json({
+            success: true,
+            statusCode: StatusCodes.OK,
+            message: "Guides parsed successfully",
+            ...guide.toObject(),
+        });
+    } catch (error: any) {
+        next(
+            createError(
+                "Failed to get Guides",
+                StatusCodes.INTERNAL_SERVER_ERROR,
+                error.message
+            )
+        );
+    }
+};
+
 // Update Guide
 export const updateGuide = async (
     req: Request,
@@ -341,6 +408,49 @@ export const createSection = async (
         next(
             createError(
                 "Failed to Create Section",
+                StatusCodes.INTERNAL_SERVER_ERROR,
+                error.message
+            )
+        );
+    }
+};
+
+// Get single Guide
+export const getSection = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return next(
+            createError("Validation error occurred.", StatusCodes.BAD_REQUEST, {
+                field: "id",
+                message: "Invalid Guide ID provided",
+            })
+        );
+    }
+
+    try {
+        const guide = await SectionModel.findById(id);
+
+        if (!guide) {
+            return next(
+                createError("Section not Found", StatusCodes.NOT_FOUND)
+            );
+        }
+
+        res.status(StatusCodes.OK).json({
+            success: true,
+            statusCode: StatusCodes.OK,
+            message: "Section parsed successfully",
+            ...guide.toObject(),
+        });
+    } catch (error: any) {
+        next(
+            createError(
+                "Failed to get Section",
                 StatusCodes.INTERNAL_SERVER_ERROR,
                 error.message
             )

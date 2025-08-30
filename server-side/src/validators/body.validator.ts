@@ -48,9 +48,11 @@ export const updateSectionSchema = z.object({
 export const createSnippetSchema = z.object({
     title: z.string().min(4),
     snippet: z.string().min(5),
+    category: z.string().min(1).optional(),
 });
 
 export const updateSnippetSchema = z.object({
     title: z.string().min(4).optional(),
     snippet: z.string().min(5).optional(),
+    category: z.string().min(1).optional(),
 });

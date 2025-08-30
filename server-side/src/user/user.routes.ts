@@ -3,6 +3,7 @@ import express from "express";
 import {
     createSnippet,
     deleteSnippet,
+    getCategories,
     getSnippets,
     loginUser,
     logoutUser,
@@ -49,6 +50,9 @@ router.post(
 
 // Logout User
 router.get("/logout", checkUserAuthentication, logoutUser);
+
+// Get Categories of Snippets
+router.get("/me/snippets/categories", checkUserAuthentication, getCategories);
 
 // Create new Snippet
 router.post(

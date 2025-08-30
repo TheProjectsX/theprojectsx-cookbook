@@ -5,7 +5,7 @@
     -   As well as, we are maintaining the sync with the tags across `GuideModel` and `CategoryModel`.
     -   `Category` table also contains `tags` of every `tag` under it
 
-## Explore the Idea:
+## Explore the Idea: [Done]
 
 > We can't make multi page of a single `tag` under a single `category`. And making single page will be hassle when it comes to edit. So:
 
