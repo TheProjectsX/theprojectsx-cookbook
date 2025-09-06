@@ -14,11 +14,19 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
-            <body className="flex flex-col min-h-screen font-primary">
+        <html lang="en" className="dark">
+            <head>
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link rel="preconnect" href="https://fonts.gstatic.com" />
+                <link
+                    href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
+                    rel="stylesheet"
+                />
+            </head>
+            <body className="flex flex-col min-h-screen font-primary dark:bg-slate-800 text-gray-800 dark:text-gray-300 transition-colors">
                 <Navbar />
 
-                <main className="flex-1">{children}</main>
+                {children}
 
                 <Footer />
             </body>
