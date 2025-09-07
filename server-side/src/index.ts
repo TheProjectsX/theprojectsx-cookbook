@@ -8,6 +8,7 @@ import { globalErrorHandler } from "./middlewares/error.middleware.js";
 // Routes
 import GuideRoutes from "./guides/guides.routes.js";
 import InfoRoutes from "./info/info.routes.js";
+import AuthRoutes from "./auth/auth.routes.js";
 import UserRoutes from "./user/user.routes.js";
 import AdminRoutes from "./admin/admin.routes.js";
 
@@ -40,8 +41,11 @@ app.use("/guides", GuideRoutes);
 // Information Routes
 app.use("/info", InfoRoutes);
 
-// User Routes (Injecting in root level, cause the sub routes handled in the router)
-app.use("/", UserRoutes);
+// Authentication Routes
+app.use("/auth", AuthRoutes);
+
+// User Routes (All User Routes are Authenticated)
+app.use("/me", checkUserAuthentication, UserRoutes);
 
 // Admin Routes
 app.use(
