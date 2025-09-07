@@ -5,6 +5,7 @@ import {
     deleteSnippet,
     getCategories,
     getSnippets,
+    getUserInfo,
     updateSnippet,
 } from "./user.controller.js";
 
@@ -19,6 +20,9 @@ import { checkUserAuthentication } from "../middlewares/auth.middleware.js";
 import { validateSchema } from "../middlewares/validator.middleware.js";
 
 const router = express.Router();
+
+// Get User Info
+router.get("/me", getUserInfo);
 
 // Get Categories of Snippets
 router.get("/snippets/categories", getCategories);

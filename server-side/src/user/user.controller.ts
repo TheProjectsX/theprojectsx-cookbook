@@ -3,6 +3,49 @@ import { StatusCodes } from "http-status-codes";
 import { createError } from "../utils/index.js";
 import { SnippetModel } from "../models/snippet.js";
 import mongoose from "mongoose";
+import { UserModel } from "../models/user.js";
+import { cookieOptions } from "../middlewares/auth.middleware.js";
+
+// Get User Info
+export const getUserInfo = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const userId = req.user?.id;
+
+    try {
+        const response = await UserModel.findById(userId);
+        if (!response) {
+            return res
+                .clearCookie("access_token", cookieOptions)
+                .status(StatusCodes.UNAUTHORIZED)
+                .json({
+                    success: true,
+                    statusCode: StatusCodes.UNAUTHORIZED,
+                    message: "Unauthenticated Request",
+                    error: "You need to login to perform this action",
+                });
+        }
+
+        const { password, ...userInfo } = response.toObject();
+
+        res.status(StatusCodes.OK).json({
+            success: true,
+            statusCode: StatusCodes.OK,
+            message: "User Info Fetched Successfully",
+            ...userInfo,
+        });
+    } catch (error: any) {
+        next(
+            createError(
+                "Failed to fetch User Info",
+                StatusCodes.INTERNAL_SERVER_ERROR,
+                error.message
+            )
+        );
+    }
+};
 
 // Get all Categories of Snippets
 export const getCategories = async (
