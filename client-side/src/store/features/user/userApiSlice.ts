@@ -43,3 +43,5 @@ export const {
     useUpdateSnippetMutation,
     useDeleteSnippetMutation,
 } = userApiSlice;
+
+export default userApiSlice;

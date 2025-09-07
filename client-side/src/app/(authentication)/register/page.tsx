@@ -1,24 +1,54 @@
 "use client";
 
+import withoutAuth from "@/hoc/withoutAuth";
+import { AppDispatch } from "@/store/app/store";
+import { useRegisterMutation } from "@/store/features/auth/authApiSlice";
+import { fetchUserInfoViaThunk } from "@/store/features/user/userInfoSlice";
 import Link from "next/link";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const Register = () => {
+    const [registerUser, { isLoading, isSuccess }] = useRegisterMutation();
+    const dispatch = useDispatch<AppDispatch>();
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const form = e.target as HTMLFormElement;
+
+        const credentials = {
+            name: form.fullname.value,
+            email: form.email.value,
+            password: form.password.value,
+        };
+
+        try {
+            await registerUser({ credentials }).unwrap();
+            await dispatch(fetchUserInfoViaThunk()).unwrap();
+
+            toast.success("Register SuccessFul!");
+        } catch (error: any) {
+            console.log(error);
+            toast.error(error?.data?.message ?? "Failed to Register");
+        }
+    };
+
     return (
-        <main className="flex-1 flex items-center justify-center">
+        <main className="flex-1 flex items-center justify-center px-5 py-10">
             <div className="max-w-[500px] w-full bg-white dark:bg-slate-800 p-5 rounded-md cursor-auto border-2 border-slate-200 dark:border-slate-700 relative transition-colors">
                 <h2 className="text-center text-xl font-medium pb-3 mb-6 border-b dark:border-slate-600">
                     Create new Account
                 </h2>
 
                 {/* Credentials Login */}
-                <form onSubmit={(e) => e.preventDefault()}>
+                <form onSubmit={handleSubmit}>
                     <label className="font-medium text-gray-900 dark:text-white flex flex-col gap-1 mb-4">
                         <p>Full Name</p>
                         <input
                             type="text"
-                            name="name"
+                            name="fullname"
                             className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:border-light-primary block w-full py-2.5 px-3 dark:bg-slate-700 dark:border-slate-600 dark:placeholder-gray-400 dark:text-white outline-none transition-colors"
                             placeholder="John Deo"
                             required
@@ -90,9 +120,10 @@ const Register = () => {
 
                     <button
                         type="submit"
-                        className="w-full bg-light-primary hover:bg-blue-700 py-2 rounded-md font-medium cursor-pointer text-white click-effect"
+                        className="w-full bg-light-primary hover:bg-blue-700 py-2 rounded-md font-medium cursor-pointer text-white click-effect disabled:cursor-not-allowed disabled:opacity-80"
+                        disabled={isLoading || isSuccess}
                     >
-                        Login
+                        Register
                     </button>
                 </form>
 
@@ -115,12 +146,12 @@ const Register = () => {
                 <div className="pt-5 pl-1">
                     <p className="text-sm font-medium">
                         Already Have an Account?{" "}
-                        <a
+                        <Link
                             href="/login"
                             className="text-light-primary dark:text-[dodgerBlue] hover:underline underline-offset-4"
                         >
                             Login Now!
-                        </a>
+                        </Link>
                     </p>
                 </div>
             </div>
@@ -128,4 +159,4 @@ const Register = () => {
     );
 };
 
-export default Register;
+export default withoutAuth(Register);

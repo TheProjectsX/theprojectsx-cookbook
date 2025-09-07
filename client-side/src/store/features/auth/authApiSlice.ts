@@ -3,24 +3,27 @@ import baseApiSlice from "@/store/app/baseApi/baseApiSlice";
 const authApiSlice = baseApiSlice.injectEndpoints({
     endpoints: (builder) => ({
         register: builder.mutation({
-            query: (credentials) => ({
+            query: (data) => ({
                 url: "/auth/register",
                 method: "POST",
-                body: { ...credentials },
+                body: { ...data.credentials },
             }),
         }),
         login: builder.mutation({
-            query: (credentials) => ({
+            query: (data) => ({
                 url: "/auth/login",
                 method: "POST",
-                body: { ...credentials },
+                body: { ...data.credentials },
             }),
         }),
-        logout: builder.query({
-            query: (data) => "/auth/logout",
+        logout: builder.mutation({
+            query: (data) => ({
+                url: "/auth/logout",
+                method: "POST",
+            }),
         }),
     }),
 });
 
-export const { useRegisterMutation, useLoginMutation, useLogoutQuery } =
+export const { useRegisterMutation, useLoginMutation, useLogoutMutation } =
     authApiSlice;

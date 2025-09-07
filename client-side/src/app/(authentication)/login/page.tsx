@@ -1,18 +1,58 @@
 "use client";
 
+import withoutAuth from "@/hoc/withoutAuth";
+import { AppDispatch } from "@/store/app/store";
+import { useLoginMutation } from "@/store/features/auth/authApiSlice";
+import { fetchUserInfoViaThunk } from "@/store/features/user/userInfoSlice";
+import Link from "next/link";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const Login = () => {
+    const [loginUser, { isLoading, isSuccess }] = useLoginMutation();
+    const dispatch = useDispatch<AppDispatch>();
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const form = e.target as HTMLFormElement;
+
+        const credentials = {
+            email: form.email.value,
+            password: form.password.value,
+        };
+
+        if (
+            !credentials.email ||
+            credentials.email?.length < 5 ||
+            !credentials.password ||
+            credentials.password?.length < 6
+        ) {
+            toast.error("Invalid Credentials");
+            return;
+        }
+
+        try {
+            await loginUser({ credentials }).unwrap();
+            await dispatch(fetchUserInfoViaThunk()).unwrap();
+
+            toast.success("Login SuccessFul!");
+        } catch (error: any) {
+            console.log(error);
+            toast.error(error?.data?.message ?? "Failed to Login");
+        }
+    };
+
     return (
-        <main className="flex-1 flex items-center justify-center">
+        <main className="flex-1 flex items-center justify-center px-5 py-10">
             <div className="max-w-[500px] w-full bg-white dark:bg-slate-800 p-5 rounded-md cursor-auto border-2 border-slate-200 dark:border-slate-700 relative transition-colors">
                 <h2 className="text-center text-xl font-medium pb-3 mb-6 border-b dark:border-slate-600">
                     Login to Your Account
                 </h2>
 
                 {/* Credentials Login */}
-                <form onSubmit={(e) => e.preventDefault()}>
+                <form onSubmit={handleSubmit}>
                     <label className="font-medium text-gray-900 dark:text-white flex flex-col gap-1 mb-4">
                         <p>Email</p>
                         <input
@@ -79,7 +119,8 @@ const Login = () => {
 
                     <button
                         type="submit"
-                        className="w-full bg-light-primary hover:bg-blue-700 py-2 rounded-md font-medium cursor-pointer text-white click-effect"
+                        className="w-full bg-light-primary hover:bg-blue-700 py-2 rounded-md font-medium cursor-pointer text-white click-effect disabled:cursor-not-allowed disabled:opacity-80"
+                        disabled={isLoading || isSuccess}
                     >
                         Login
                     </button>
@@ -104,12 +145,12 @@ const Login = () => {
                 <div className="pt-5 pl-1">
                     <p className="text-sm font-medium">
                         Don't Have an Account?{" "}
-                        <a
+                        <Link
                             href="/register"
                             className="text-light-primary dark:text-[dodgerBlue] hover:underline underline-offset-4"
                         >
                             Register Now!
-                        </a>
+                        </Link>
                     </p>
                 </div>
             </div>
@@ -117,4 +158,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default withoutAuth(Login);
