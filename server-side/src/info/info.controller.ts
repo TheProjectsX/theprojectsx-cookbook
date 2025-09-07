@@ -3,6 +3,7 @@ import { createError } from "../utils/index.js";
 import { StatusCodes } from "http-status-codes";
 import { GuideModel } from "../models/guide.js";
 import { CategoryModel } from "../models/category.js";
+import { AvatarModel } from "../models/avatars.js";
 
 export const getNavigationRoutes = async (
     req: Request,
@@ -39,6 +40,7 @@ export const getNavigationRoutes = async (
 
         res.status(StatusCodes.OK).json({
             success: true,
+            statusCode: StatusCodes.OK,
             message: "Navigation Routes parsed",
             data: navigationRoutes,
         });
@@ -64,6 +66,7 @@ export const getCategories = async (
 
         res.status(StatusCodes.OK).json({
             success: true,
+            statusCode: StatusCodes.OK,
             message: "Categories parsed",
             data: categories,
         });
@@ -71,6 +74,32 @@ export const getCategories = async (
         next(
             createError(
                 "Failed to Fetch categories data",
+                StatusCodes.INTERNAL_SERVER_ERROR,
+                error.message
+            )
+        );
+    }
+};
+
+// Get Avatars
+export const getAvatars = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const response = await AvatarModel.find({}, { url: 1, name: 1 });
+
+        res.status(StatusCodes.OK).json({
+            success: true,
+            statusCode: StatusCodes.OK,
+            message: "Avatars Fetched",
+            data: response,
+        });
+    } catch (error: any) {
+        next(
+            createError(
+                "Failed to Fetch Avatars data",
                 StatusCodes.INTERNAL_SERVER_ERROR,
                 error.message
             )

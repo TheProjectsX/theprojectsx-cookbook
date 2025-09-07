@@ -5,6 +5,7 @@ import { GuideModel } from "../models/guide.js";
 import { CategoryModel } from "../models/category.js";
 import { SectionModel } from "../models/section.js";
 import mongoose from "mongoose";
+import { AvatarModel } from "../models/avatars.js";
 
 // -------- Category --------
 
@@ -537,6 +538,118 @@ export const deleteSection = async (
         next(
             createError(
                 "Failed to Delete Section",
+                StatusCodes.INTERNAL_SERVER_ERROR,
+                error.message
+            )
+        );
+    }
+};
+
+// -------- Avatars --------
+
+// Create Avatar
+export const createAvatar = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const { url, name } = req.body;
+
+    try {
+        const newAvatar = new AvatarModel({ url, name });
+        const response = await newAvatar.save();
+
+        res.status(StatusCodes.CREATED).json({
+            success: true,
+            statusCode: StatusCodes.CREATED,
+            message: "New Avatar Added",
+            ...response.toObject(),
+        });
+    } catch (error: any) {
+        next(
+            createError(
+                "Failed to insert Avatar",
+                StatusCodes.INTERNAL_SERVER_ERROR,
+                error.message
+            )
+        );
+    }
+};
+
+// Update Avatar
+export const updateAvatar = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const { id } = req.params;
+    const { url, name } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return next(
+            createError("Validation error occurred.", StatusCodes.BAD_REQUEST, {
+                field: "id",
+                message: "Invalid Section ID provided",
+            })
+        );
+    }
+
+    try {
+        const response = await AvatarModel.findByIdAndUpdate(id, { url, name });
+
+        if (!response) {
+            return next(createError("Avatar not Found", StatusCodes.NOT_FOUND));
+        }
+
+        res.status(StatusCodes.OK).json({
+            success: true,
+            statusCode: StatusCodes.OK,
+            message: "Avatar Updated Successfully",
+            ...response.toObject(),
+        });
+    } catch (error: any) {
+        next(
+            createError(
+                "Failed to update Avatar",
+                StatusCodes.INTERNAL_SERVER_ERROR,
+                error.message
+            )
+        );
+    }
+};
+
+// Delete Avatar
+export const deleteAvatar = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return next(
+            createError("Validation error occurred.", StatusCodes.BAD_REQUEST, {
+                field: "id",
+                message: "Invalid Section ID provided",
+            })
+        );
+    }
+
+    try {
+        const response = await AvatarModel.findByIdAndDelete(id);
+        if (!response) {
+            return next(createError("Avatar not Found", StatusCodes.NOT_FOUND));
+        }
+
+        res.status(StatusCodes.OK).json({
+            success: true,
+            statusCode: StatusCodes.OK,
+            message: "Avatar Deleted Successfully",
+        });
+    } catch (error: any) {
+        next(
+            createError(
+                "Failed to Delete Avatar",
                 StatusCodes.INTERNAL_SERVER_ERROR,
                 error.message
             )

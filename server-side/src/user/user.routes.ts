@@ -22,7 +22,7 @@ import { validateSchema } from "../middlewares/validator.middleware.js";
 const router = express.Router();
 
 // Get User Info
-router.get("/me", getUserInfo);
+router.get("/", getUserInfo);
 
 // Get Categories of Snippets
 router.get("/snippets/categories", getCategories);

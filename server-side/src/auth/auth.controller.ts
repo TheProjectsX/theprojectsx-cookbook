@@ -3,6 +3,7 @@ import { UserModel } from "../models/user.js";
 import { createError, genHash, genToken, hashMatched } from "../utils/index.js";
 import { cookieOptions } from "../middlewares/auth.middleware.js";
 import { StatusCodes } from "http-status-codes";
+import { AvatarModel } from "../models/avatars.js";
 
 // Register New User (Public)
 export const registerUser = async (
@@ -12,10 +13,14 @@ export const registerUser = async (
 ) => {
     const body = req.body;
 
+    const avatars = await AvatarModel.find();
+    const randomAvatar = avatars[Math.floor(Math.random() * avatars.length)];
+
     const hashedPassword = genHash(body.password);
     const doc = {
         name: body.name,
         email: body.email,
+        avatar: randomAvatar,
         password: hashedPassword,
     };
 

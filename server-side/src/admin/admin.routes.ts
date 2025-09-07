@@ -1,15 +1,18 @@
 import express from "express";
 // Route Controllers
 import {
+    createAvatar,
     createCategory,
     createGuide,
     createSection,
+    deleteAvatar,
     deleteCategory,
     deleteGuide,
     deleteSection,
     getCategories,
     getGuide,
     getSection,
+    updateAvatar,
     updateCategory,
     updateGuide,
     updateSection,
@@ -73,5 +76,16 @@ router.put("/sections/:id", validateSchema(updateSectionSchema), updateSection);
 
 // Delete Section
 router.delete("/sections/:id", deleteSection);
+
+// -------- Avatar --------
+
+// Create Avatar
+router.post("/avatar", createAvatar);
+
+// Update Avatar
+router.put("/avatar/:id", updateAvatar);
+
+// Delete Avatar
+router.delete("/avatar/:id", deleteAvatar);
 
 export default router;
