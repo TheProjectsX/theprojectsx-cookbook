@@ -42,7 +42,7 @@ const LoginIntercept = () => {
                             type="email"
                             name="email"
                             className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:border-light-primary block w-full py-2.5 px-3 dark:bg-slate-700 dark:border-slate-600 dark:placeholder-gray-400 dark:text-white outline-none transition-colors"
-                            placeholder="jhondeo@gmail.com"
+                            placeholder="johndeo@gmail.com"
                             required
                         />
                     </label>
