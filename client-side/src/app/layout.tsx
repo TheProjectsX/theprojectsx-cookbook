@@ -22,7 +22,7 @@ export default function RootLayout({
                     rel="stylesheet"
                 />
             </head>
-            <body className="flex flex-col min-h-screen font-primary dark:bg-slate-800 text-gray-800 dark:text-gray-300 transition-colors">
+            <body className="flex flex-col min-h-screen text-gray-800 transition-colors font-primary bg-slate-50 dark:bg-slate-800 dark:text-gray-300">
                 <ApplicationWrapper>{children}</ApplicationWrapper>
             </body>
         </html>

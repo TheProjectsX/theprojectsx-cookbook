@@ -13,11 +13,14 @@ import Popover from "@theprojectsx/react-popover";
 import PopoverContent from "./PopoverContent";
 
 const Navbar = () => {
-    const navLinks = [
+    const commonNavLinks = [
         {
             label: "Home",
             href: "/",
         },
+    ];
+
+    const publicNavLinks = [
         {
             label: "Snippets",
             href: "/snippets",
@@ -27,6 +30,22 @@ const Navbar = () => {
             href: "/resources",
         },
     ];
+
+    const adminNavLinks = [
+        {
+            label: "Users",
+            href: "/admin/users",
+        },
+        {
+            label: "Guides",
+            href: "/admin/guides",
+        },
+        {
+            label: "Sections",
+            href: "/admin/sections",
+        },
+    ];
+
     const [authStatus, setAuthStatus] = useState<AuthStatus>(null);
 
     const pathname = usePathname();
@@ -43,44 +62,56 @@ const Navbar = () => {
         dispatch(fetchUserInfoViaThunk());
     }, [dispatch]);
 
+    const navLinks = [
+        ...commonNavLinks,
+        ...(userInfo && pathname.startsWith("/admin")
+            ? adminNavLinks
+            : publicNavLinks),
+    ];
+
     return (
         <>
             <Authentication status={authStatus} setStatus={setAuthStatus} />
 
-            <header className="py-2.5 px-3 dark:bg-slate-700 border-b border-gray-200 dark:border-slate-600 transition-colors">
-                <div className="flex justify-between items-center max-width mx-auto">
-                    <div className="flex gap-2 items-center">
-                        <button className="text-2xl p-2 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-600 rounded-md cursor-pointer click-effect !transition-all">
+            <header className="py-2.5 px-3">
+                {/* Logo and Ham */}
+                <div className="flex items-center justify-between mx-auto max-width">
+                    <div className="flex items-center gap-2">
+                        <button className="text-2xl p-1.5 text-gray-500 hover:text-black bg-white dark:bg-slate-700 dark:text-gray-400 dark:hover:text-white shadow-lg rounded-md cursor-pointer click-effect !transition-all">
                             <TbMenuDeep />
                         </button>
 
                         <Link
                             href="/"
-                            className="font-mono italic font-semibold text-xl"
+                            className="font-mono text-xl italic font-semibold"
                         >
                             CookBook!
                         </Link>
                     </div>
 
-                    <nav>
-                        <ul className="flex text-sm font-medium">
-                            {navLinks.map((link) => (
-                                <li key={link.href}>
-                                    <Link
-                                        href={link.href}
-                                        className="px-3.5 py-1.5 hover:text-light-primary"
-                                    >
-                                        {link.label}
-                                    </Link>
-                                </li>
-                            ))}
+                    {/* Navigation Links */}
+                    <nav className="px-2 bg-white shadow-lg dark:bg-slate-700 rounded-3xl">
+                        <ul className="flex font-medium transition-colors">
+                            {navLinks.map(
+                                (link) => (
+                                    <li key={link.href}>
+                                        <Link
+                                            href={link.href}
+                                            className="block px-4 py-2 hover:text-light-primary dark:hover:text-dark-primary"
+                                        >
+                                            {link.label}
+                                        </Link>
+                                    </li>
+                                )
+                            )}
                         </ul>
                     </nav>
 
-                    <div className="flex items-center gap-2">
+                    {/* Theme and Login */}
+                    <div className="flex items-center px-2 transition-colors bg-white shadow-lg dark:bg-slate-700 rounded-3xl">
                         <button
                             data-theme="dark"
-                            className="text-xl p-2 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-600 rounded-md cursor-pointer transition-colors"
+                            className="p-2 text-2xl text-gray-500 transition-colors rounded-md cursor-pointer hover:text-black dark:text-gray-400 dark:hover:text-white"
                             onClick={(e) => {
                                 const target = (e.currentTarget ||
                                     e.target) as HTMLButtonElement;
@@ -117,7 +148,7 @@ const Navbar = () => {
                             <span className="light">
                                 <MdLightMode />
                             </span>
-                            <span className="dark hidden">
+                            <span className="hidden dark">
                                 <MdDarkMode />
                             </span>
                         </button>
@@ -135,7 +166,7 @@ const Navbar = () => {
                                         router.push("/login");
                                     }
                                 }}
-                                className="bg-light-primary text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-blue-700 cursor-pointer click-effect"
+                                className="text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white px-3 py-1.5 rounded-md font-medium cursor-pointer click-effect"
                             >
                                 Login
                             </button>
@@ -146,13 +177,15 @@ const Navbar = () => {
                                 content={<PopoverContent userInfo={userInfo} />}
                                 position="bottom"
                                 axis="right"
-                                parentStyles={{ height: "2.25rem" }}
+                                parentStyles={{
+                                    height: "2.25rem",
+                                }}
                             >
-                                <button className="cursor-pointer click-effect">
+                                <button className="pl-2 cursor-pointer click-effect">
                                     <img
                                         src={userInfo.avatar}
                                         alt="User Avatar"
-                                        className="size-9 rounded-full"
+                                        className="rounded-full size-9"
                                     />
                                 </button>
                             </Popover>

@@ -50,14 +50,14 @@ const LoginModal = ({
     };
 
     return (
-        <div className="max-w-[500px] w-full bg-white dark:bg-slate-800 p-5 rounded-md cursor-auto border-2 border-slate-200 dark:border-slate-700 relative transition-colors">
-            <h2 className="text-center text-xl font-medium pb-3 mb-6 border-b dark:border-slate-600">
+        <div className="max-w-[500px] w-full bg-white dark:bg-slate-800 p-5 rounded-md cursor-auto dark:border-slate-700 relative transition-colors">
+            <h2 className="pb-3 mb-6 text-xl font-medium text-center border-b dark:border-slate-600">
                 Login to Your Account
             </h2>
 
             {/* Credentials Login */}
             <form onSubmit={handleSubmit}>
-                <label className="font-medium text-gray-900 dark:text-white flex flex-col gap-1 mb-4">
+                <label className="flex flex-col gap-1 mb-4 font-medium text-gray-900 dark:text-white">
                     <p>Email</p>
                     <input
                         type="email"
@@ -67,7 +67,7 @@ const LoginModal = ({
                         required
                     />
                 </label>
-                <label className="font-medium text-gray-900 dark:text-white flex flex-col gap-1 relative mb-5">
+                <label className="relative flex flex-col gap-1 mb-5 font-medium text-gray-900 dark:text-white">
                     <p>Password</p>
                     <input
                         type="password"
@@ -114,7 +114,7 @@ const LoginModal = ({
                         <span className="show">
                             <AiOutlineEye />
                         </span>
-                        <span className="hide hidden">
+                        <span className="hidden hide">
                             <AiOutlineEyeInvisible />
                         </span>
                     </button>
@@ -122,7 +122,7 @@ const LoginModal = ({
 
                 <button
                     type="submit"
-                    className="w-full bg-light-primary hover:bg-blue-700 py-2 rounded-md font-medium cursor-pointer text-white click-effect disabled:cursor-not-allowed disabled:opacity-80"
+                    className="w-full py-2 font-medium text-white rounded-md cursor-pointer bg-light-primary hover:bg-blue-700 click-effect disabled:cursor-not-allowed disabled:opacity-80"
                     disabled={isLoading || isSuccess}
                 >
                     Login
@@ -159,7 +159,7 @@ const LoginModal = ({
 
             {/* Close Button */}
             <button
-                className="absolute right-3 top-3 text-lg bg-slate-200 dark:bg-slate-700 p-1 rounded-full cursor-pointer"
+                className="absolute p-1 text-lg rounded-full cursor-pointer right-3 top-3 bg-slate-200 dark:bg-slate-700"
                 onClick={() => setStatus(null)}
             >
                 <IoMdClose />

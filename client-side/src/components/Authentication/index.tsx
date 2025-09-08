@@ -14,7 +14,7 @@ const Authentication = ({
 
     return (
         <div
-            className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 cursor-pointer"
+            className="fixed inset-0 flex items-center justify-center p-4 cursor-pointer bg-slate-700/50"
             onClick={(e) => {
                 if (e.currentTarget === e.target) {
                     setStatus(null);
