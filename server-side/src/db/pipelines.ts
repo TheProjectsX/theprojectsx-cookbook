@@ -146,3 +146,26 @@ export const getGuideByCatPipeline = (): PipelineStage[] => [
         },
     },
 ];
+
+// Get users with Snippet Count
+export const getUsersPipeline = (): PipelineStage[] => [
+    { $project: { password: 0 } },
+    { $sort: { createdAt: -1 } },
+
+    {
+        $lookup: {
+            from: "snippets",
+            localField: "_id",
+            foreignField: "user",
+            as: "snippets",
+        },
+    },
+
+    {
+        $addFields: {
+            snippetCount: { $size: "$snippets" },
+        },
+    },
+
+    { $project: { snippets: 0 } },
+];

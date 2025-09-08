@@ -13,6 +13,7 @@ import {
     getGuide,
     getSection,
     getStatistics,
+    getUsers,
     updateAvatar,
     updateCategory,
     updateGuide,
@@ -91,5 +92,10 @@ router.put("/avatar/:id", updateAvatar);
 
 // Delete Avatar
 router.delete("/avatar/:id", deleteAvatar);
+
+// -------- Users --------
+
+// Get Users
+router.get("/users", getUsers);
 
 export default router;

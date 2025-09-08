@@ -9,7 +9,9 @@ import { AvatarModel } from "../models/avatars.js";
 import {
     getCountOverviewPipeline,
     getGuideByCatPipeline,
+    getUsersPipeline,
 } from "../db/pipelines.js";
+import { UserModel } from "../models/user.js";
 
 // -------- Statistics --------
 
@@ -698,6 +700,31 @@ export const deleteAvatar = async (
         next(
             createError(
                 "Failed to Delete Avatar",
+                StatusCodes.INTERNAL_SERVER_ERROR,
+                error.message
+            )
+        );
+    }
+};
+
+// -------- Users --------
+export const getUsers = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const response = await UserModel.aggregate(getUsersPipeline());
+        res.status(StatusCodes.OK).json({
+            success: true,
+            statusCode: StatusCodes.OK,
+            message: "Users Fetched Successfully",
+            data: response,
+        });
+    } catch (error: any) {
+        next(
+            createError(
+                "Failed to fetch Users",
                 StatusCodes.INTERNAL_SERVER_ERROR,
                 error.message
             )
