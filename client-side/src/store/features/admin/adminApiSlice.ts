@@ -10,7 +10,7 @@ const adminApiSlice = baseApiSlice.injectEndpoints({
                 body: { ...data.body },
             }),
         }),
-        fetchCategories: builder.query({
+        fetchAdminCategories: builder.query({
             query: () => "/admin/categories",
         }),
         updateCategory: builder.mutation({
@@ -70,18 +70,45 @@ const adminApiSlice = baseApiSlice.injectEndpoints({
                 body: { ...data.body },
             }),
         }),
-        deleteSections: builder.mutation({
+        deleteSection: builder.mutation({
             query: (data) => ({
                 url: `/admin/sections/${data.id}`,
                 method: "DELETE",
             }),
+        }),
+
+        // Avatars
+        createAvatar: builder.mutation({
+            query: (data) => ({
+                url: `/admin/avatar`,
+                method: "POST",
+                body: { ...data.body },
+            }),
+        }),
+        updateAvatar: builder.mutation({
+            query: (data) => ({
+                url: `/admin/avatar/${data.id}`,
+                method: "PUT",
+                body: { ...data.body },
+            }),
+        }),
+        deleteAvatar: builder.mutation({
+            query: (data) => ({
+                url: `/admin/avatar/${data.id}`,
+                method: "DELETE",
+            }),
+        }),
+
+        // Users
+        fetchUsers: builder.query({
+            query: (data) => "/admin/users",
         }),
     }),
 });
 
 export const {
     useCreateCategoryMutation,
-    useFetchCategoriesQuery,
+    useFetchAdminCategoriesQuery,
     useUpdateCategoryMutation,
     useDeleteCategoryMutation,
     useCreateGuideMutation,
@@ -91,5 +118,9 @@ export const {
     useCreateSectionMutation,
     useFetchSectionQuery,
     useUpdateSectionMutation,
-    useDeleteSectionsMutation,
+    useDeleteSectionMutation,
+    useCreateAvatarMutation,
+    useUpdateAvatarMutation,
+    useDeleteAvatarMutation,
+    useFetchUsersQuery,
 } = adminApiSlice;

@@ -3,7 +3,7 @@ import baseApiSlice from "@/store/app/baseApi/baseApiSlice";
 const userApiSlice = baseApiSlice.injectEndpoints({
     endpoints: (builder) => ({
         fetchUserInfo: builder.query({ query: () => "/me" }),
-        fetchCategories: builder.query({
+        fetchSnippetCategories: builder.query({
             query: () => "/me/snippets/categories",
         }),
         createSnippet: builder.mutation({
@@ -37,7 +37,7 @@ const userApiSlice = baseApiSlice.injectEndpoints({
 
 export const {
     useFetchUserInfoQuery,
-    useFetchCategoriesQuery,
+    useFetchSnippetCategoriesQuery,
     useCreateSnippetMutation,
     useFetchSnippetsQuery,
     useUpdateSnippetMutation,

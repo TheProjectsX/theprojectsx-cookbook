@@ -11,6 +11,9 @@ const publicApiSlice = baseApiSlice.injectEndpoints({
         fetchCategories: builder.query({
             query: (data) => `/info/categories`,
         }),
+        fetchAvatars: builder.query({
+            query: (data) => "/info/avatars",
+        }),
     }),
 });
 
@@ -18,4 +21,5 @@ export const {
     useFetchGuideQuery,
     useFetchNavigationQuery,
     useFetchCategoriesQuery,
+    useFetchAvatarsQuery,
 } = publicApiSlice;
