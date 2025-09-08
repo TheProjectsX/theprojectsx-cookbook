@@ -73,11 +73,11 @@ const Navbar = () => {
         <>
             <Authentication status={authStatus} setStatus={setAuthStatus} />
 
-            <header className="py-2.5 px-3">
+            <header className="px-3 py-3.5">
                 {/* Logo and Ham */}
                 <div className="flex items-center justify-between mx-auto max-width">
                     <div className="flex items-center gap-2">
-                        <button className="text-2xl p-1.5 text-gray-500 hover:text-black bg-white dark:bg-slate-700 dark:text-gray-400 dark:hover:text-white shadow-lg rounded-md cursor-pointer click-effect !transition-all">
+                        <button className="text-2xl p-1.5 text-gray-500 hover:text-black bg-light-bg-secondary dark:bg-dark-bg-secondary dark:text-gray-400 dark:hover:text-white shadow-lg rounded-md cursor-pointer click-effect !transition-all">
                             <TbMenuDeep />
                         </button>
 
@@ -90,25 +90,23 @@ const Navbar = () => {
                     </div>
 
                     {/* Navigation Links */}
-                    <nav className="px-2 bg-white shadow-lg dark:bg-slate-700 rounded-3xl">
-                        <ul className="flex font-medium transition-colors">
-                            {navLinks.map(
-                                (link) => (
-                                    <li key={link.href}>
-                                        <Link
-                                            href={link.href}
-                                            className="block px-4 py-2 hover:text-light-primary dark:hover:text-dark-primary"
-                                        >
-                                            {link.label}
-                                        </Link>
-                                    </li>
-                                )
-                            )}
+                    <nav className="px-2 transition-colors bg-light-bg-secondary dark:bg-dark-bg-secondary rounded-3xl">
+                        <ul className="flex font-medium">
+                            {navLinks.map((link) => (
+                                <li key={link.href}>
+                                    <Link
+                                        href={link.href}
+                                        className="block px-4 py-2 hover:text-light-highlight dark:hover:text-dark-highlight"
+                                    >
+                                        {link.label}
+                                    </Link>
+                                </li>
+                            ))}
                         </ul>
                     </nav>
 
                     {/* Theme and Login */}
-                    <div className="flex items-center px-2 transition-colors bg-white shadow-lg dark:bg-slate-700 rounded-3xl">
+                    <div className="flex items-center px-2 transition-colors shadow-lg bg-light-bg-secondary dark:bg-dark-bg-secondary rounded-3xl">
                         <button
                             data-theme="dark"
                             className="p-2 text-2xl text-gray-500 transition-colors rounded-md cursor-pointer hover:text-black dark:text-gray-400 dark:hover:text-white"

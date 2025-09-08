@@ -10,8 +10,23 @@
 @theme {
     --font-primary: "Ubuntu", sans-serif;
     --font-title: "Montserrat", sans-serif;
-    --color-light-primary: #155dfc;
-    --color-dark-primary: dodgerBlue;
+
+    /* Light Mode */
+    --color-light-bg-primary: #f5f7fa; /* main background */
+    --color-light-bg-secondary: #ffffff; /* cards/panels */
+    --color-light-primary: #374151; /* normal text */
+    --color-light-title: #111827; /* headings/titles */
+    --color-light-highlight: #3b82f6; /* accents, links, buttons */
+
+    /* Dark Mode */
+    --color-dark-bg-primary: #121c2a; /* deep blue, techy feel */
+    --color-dark-bg-secondary: #1f3148; /* slightly lighter for cards/panels */
+    --color-dark-primary: #d1d5db; /* text */
+    --color-dark-title: #f9fafb; /* headings */
+    --color-dark-highlight: dodgerBlue; /* accent */
+
+    /* Common Mode */
+    --color-highlight: #155dfc;
 }
 
 /* Custom Classes */

@@ -16,19 +16,19 @@ const Footer = () => {
     ];
 
     return (
-        <footer className="bg-slate-100 dark:bg-slate-800 p-6 border-t border-slate-200 dark:border-slate-700 transition-colors">
-            <div className="max-width mx-auto text-center">
+        <footer className="p-6 transition-colors border-t bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+            <div className="mx-auto text-center max-width">
                 <a
                     href="https://github.com/TheProjectsX"
                     target="_blank"
-                    className="flex flex-col gap-0.5 font-semibold font-mono text-sm hover:text-primary text-gray-600 dark:text-gray-300 hover:text-light-primary dark:hover:text-blue-500 w-fit mx-auto"
+                    className="flex flex-col gap-0.5 font-semibold font-mono text-sm hover:text-primary text-gray-600 dark:text-gray-300 hover:text-highlight dark:hover:text-blue-500 w-fit mx-auto"
                 >
                     <span>All Rights Reserved by TheProjectsX</span>
-                    <span className="flex gap-3 items-center justify-center">
+                    <span className="flex items-center justify-center gap-3">
                         {statsData.map((item) => (
                             <span
                                 key={item.value}
-                                className="flex gap-1 items-center"
+                                className="flex items-center gap-1"
                             >
                                 <item.icon />
                                 {item.value}

@@ -1,5 +1,8 @@
-import LoginModal from "./sections/login";
-import RegisterModal from "./sections/register";
+"use client";
+
+import { useEffect } from "react";
+import LoginInterface from "./sections/loginInterface";
+import RegisterInterface from "./sections/registerInterface";
 
 export type AuthStatus = "login" | "register" | null;
 
@@ -10,20 +13,27 @@ const Authentication = ({
     status: AuthStatus;
     setStatus: React.Dispatch<React.SetStateAction<AuthStatus>>;
 }) => {
+    // Prevent Scrolling
+    useEffect(() => {
+        document.body.style.overflow = status ? "hidden" : "auto";
+    }, [status]);
+
     if (!status) return null;
 
     return (
         <div
-            className="fixed inset-0 flex items-center justify-center p-4 cursor-pointer bg-slate-700/50"
+            className="fixed inset-0 flex items-center justify-center p-4 cursor-pointer bg-slate-900/70"
             onClick={(e) => {
                 if (e.currentTarget === e.target) {
                     setStatus(null);
                 }
             }}
         >
-            {status === "login" && <LoginModal setStatus={setStatus} />}
+            {status === "login" && <LoginInterface setStatus={setStatus} />}
 
-            {status === "register" && <RegisterModal setStatus={setStatus} />}
+            {status === "register" && (
+                <RegisterInterface setStatus={setStatus} />
+            )}
         </div>
     );
 };
