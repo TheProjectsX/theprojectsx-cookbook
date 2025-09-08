@@ -12,6 +12,7 @@ import {
     getCategories,
     getGuide,
     getSection,
+    getStatistics,
     updateAvatar,
     updateCategory,
     updateGuide,
@@ -30,6 +31,9 @@ import {
 import { validateSchema } from "../middlewares/validator.middleware.js";
 
 const router = express.Router();
+
+// -------- Statistics --------
+router.get("/statistics", getStatistics);
 
 // -------- Category --------
 

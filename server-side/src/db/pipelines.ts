@@ -116,3 +116,33 @@ export const getGuidePagePipeline = (
     },
     { $project: { sectionsData: 0 } },
 ];
+
+// Get Counts, Admin Pipeline
+export const getCountOverviewPipeline = (): PipelineStage[] => [
+    {
+        $facet: {
+            guides: [{ $count: "count" }],
+            categories: [{ $count: "count" }],
+            sections: [{ $count: "count" }],
+            snippets: [{ $count: "count" }],
+            users: [{ $count: "count" }],
+        },
+    },
+];
+
+// Get Guides by Category Count, Admin Pipeline
+export const getGuideByCatPipeline = (): PipelineStage[] => [
+    {
+        $group: {
+            _id: "$category",
+            count: { $sum: 1 },
+        },
+    },
+    {
+        $project: {
+            _id: 0,
+            category: "$_id",
+            count: 1,
+        },
+    },
+];

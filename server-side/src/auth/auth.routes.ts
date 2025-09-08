@@ -28,6 +28,6 @@ router.post(
 /* Private Routes */
 
 // Logout User
-router.get("/logout", checkUserAuthentication, logoutUser);
+router.post("/logout", checkUserAuthentication, logoutUser);
 
 export default router;

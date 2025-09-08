@@ -6,6 +6,54 @@ import { CategoryModel } from "../models/category.js";
 import { SectionModel } from "../models/section.js";
 import mongoose from "mongoose";
 import { AvatarModel } from "../models/avatars.js";
+import {
+    getCountOverviewPipeline,
+    getGuideByCatPipeline,
+} from "../db/pipelines.js";
+
+// -------- Statistics --------
+
+// Get Statistics
+export const getStatistics = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const [overview, guidesByCategory, latestGuides] = await Promise.all([
+            GuideModel.aggregate(getCountOverviewPipeline()),
+            GuideModel.aggregate(getGuideByCatPipeline()),
+            GuideModel.find({}, { title: 1, category: 1, tag: 1 })
+                .sort({ createdAt: -1 })
+                .limit(5),
+        ]);
+
+        const countOverview = {
+            guides: overview[0]?.guides[0]?.count || 0,
+            categories: overview[0]?.sections[0]?.count || 0,
+            sections: overview[0]?.sections[0]?.count || 0,
+            snippets: overview[0]?.snippets[0]?.count || 0,
+            users: overview[0]?.users[0]?.count || 0,
+        };
+
+        res.status(StatusCodes.OK).json({
+            success: true,
+            statusCode: StatusCodes.OK,
+            message: "Data Parsed Successfully",
+            countOverview,
+            guidesByCategory,
+            latestGuides,
+        });
+    } catch (error: any) {
+        next(
+            createError(
+                "Failed to parse Data",
+                StatusCodes.INTERNAL_SERVER_ERROR,
+                error.message
+            )
+        );
+    }
+};
 
 // -------- Category --------
 
