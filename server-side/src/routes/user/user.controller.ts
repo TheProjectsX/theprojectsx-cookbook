@@ -1,10 +1,11 @@
 import type { Request, Response, NextFunction } from "express";
-import { StatusCodes } from "http-status-codes";
-import { createError } from "../utils/index.js";
-import { SnippetModel } from "../models/snippet.js";
 import mongoose from "mongoose";
-import { UserModel } from "../models/user.js";
-import { cookieOptions } from "../middlewares/auth.middleware.js";
+import { StatusCodes } from "http-status-codes";
+
+import { createError } from "../../utils/index.js";
+import { SnippetModel } from "../../models/snippet.js";
+import { UserModel } from "../../models/user.js";
+import { cookieOptions } from "../../middlewares/auth.middleware.js";
 
 // Get User Info
 export const getUserInfo = async (
@@ -64,13 +65,13 @@ export const getCategories = async (
         res.status(StatusCodes.OK).json({
             success: true,
             statusCode: StatusCodes.OK,
-            message: "Categories parsed successfully",
+            message: "Categories fetched successfully",
             data: categories,
         });
     } catch (error: any) {
         next(
             createError(
-                "Failed to get Categories",
+                "Failed to fetch Categories",
                 StatusCodes.INTERNAL_SERVER_ERROR,
                 error.message
             )
@@ -129,16 +130,24 @@ export const getSnippets = async (
     let skip = limit * (page - 1);
     skip = isNaN(skip) || skip < 1 ? 0 : skip;
 
+    // Create Filter
+    const filter: any = {
+        user: userId,
+    };
+
+    if (category) filter.category = { $regex: `^${category}$`, $options: "i" };
+    if (query) filter.title = { $regex: query, $options: "i" };
+
     try {
-        const snippets = await SnippetModel.find({
-            user: userId,
-            category,
-            title: { $regex: `^${query}$`, $options: "i" },
+        const snippets = await SnippetModel.find(filter, {
+            user: 0,
+            updatedAt: 0,
+            __v: 0,
         })
             .skip(skip)
             .limit(isNaN(limit) ? 10 : limit);
 
-        const totalCount = await SnippetModel.estimatedDocumentCount({
+        const totalCount = await SnippetModel.countDocuments({
             user: userId,
         });
         const pagination = {
@@ -152,14 +161,14 @@ export const getSnippets = async (
         res.status(StatusCodes.OK).json({
             success: true,
             statusCode: StatusCodes.OK,
-            message: "Snippets parsed successfully",
+            message: "Snippets fetched successfully",
             pagination,
             data: snippets,
         });
     } catch (error: any) {
         next(
             createError(
-                "Failed to get Snippets",
+                "Failed to fetch Snippets",
                 StatusCodes.INTERNAL_SERVER_ERROR,
                 error.message
             )

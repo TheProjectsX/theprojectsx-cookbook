@@ -6,11 +6,11 @@ import connectDB from "./db/index.js";
 import { globalErrorHandler } from "./middlewares/error.middleware.js";
 
 // Routes
-import GuideRoutes from "./guides/guides.routes.js";
-import InfoRoutes from "./info/info.routes.js";
-import AuthRoutes from "./auth/auth.routes.js";
-import UserRoutes from "./user/user.routes.js";
-import AdminRoutes from "./admin/admin.routes.js";
+import GuideRoutes from "./routes/guides/guides.routes.js";
+import InfoRoutes from "./routes/info/info.routes.js";
+import AuthRoutes from "./routes/auth/auth.routes.js";
+import UserRoutes from "./routes/user/user.routes.js";
+import AdminRoutes from "./routes/admin/admin.routes.js";
 
 // Middleware
 import {

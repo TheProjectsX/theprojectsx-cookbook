@@ -1,4 +1,5 @@
 import express from "express";
+
 // Route Controllers
 import {
     createAvatar,
@@ -26,10 +27,10 @@ import {
     createSectionSchema,
     updateGuideSchema,
     updateSectionSchema,
-} from "../validators/body.validator.js";
+} from "../../validators/body.validator.js";
 
 // MiddleWares
-import { validateSchema } from "../middlewares/validator.middleware.js";
+import { validateSchema } from "../../middlewares/validator.middleware.js";
 
 const router = express.Router();
 

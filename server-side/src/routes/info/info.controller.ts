@@ -1,9 +1,10 @@
 import type { Request, Response, NextFunction } from "express";
-import { createError } from "../utils/index.js";
 import { StatusCodes } from "http-status-codes";
-import { GuideModel } from "../models/guide.js";
-import { CategoryModel } from "../models/category.js";
-import { AvatarModel } from "../models/avatars.js";
+
+import { createError } from "../../utils/index.js";
+import { GuideModel } from "../../models/guide.js";
+import { CategoryModel } from "../../models/category.js";
+import { AvatarModel } from "../../models/avatars.js";
 
 export const getNavigationRoutes = async (
     req: Request,
@@ -41,7 +42,7 @@ export const getNavigationRoutes = async (
         res.status(StatusCodes.OK).json({
             success: true,
             statusCode: StatusCodes.OK,
-            message: "Navigation Routes parsed",
+            message: "Navigation Routes fetched",
             data: navigationRoutes,
         });
     } catch (error: any) {
@@ -67,7 +68,7 @@ export const getCategories = async (
         res.status(StatusCodes.OK).json({
             success: true,
             statusCode: StatusCodes.OK,
-            message: "Categories parsed",
+            message: "Categories fetched",
             data: categories,
         });
     } catch (error: any) {

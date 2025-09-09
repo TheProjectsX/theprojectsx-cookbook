@@ -1,9 +1,15 @@
 import type { Request, Response, NextFunction } from "express";
-import { UserModel } from "../models/user.js";
-import { createError, genHash, genToken, hashMatched } from "../utils/index.js";
-import { cookieOptions } from "../middlewares/auth.middleware.js";
 import { StatusCodes } from "http-status-codes";
-import { AvatarModel } from "../models/avatars.js";
+
+import { UserModel } from "../../models/user.js";
+import {
+    createError,
+    genHash,
+    genToken,
+    hashMatched,
+} from "../../utils/index.js";
+import { cookieOptions } from "../../middlewares/auth.middleware.js";
+import { AvatarModel } from "../../models/avatars.js";
 
 // Register New User (Public)
 export const registerUser = async (

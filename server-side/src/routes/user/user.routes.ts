@@ -1,4 +1,5 @@
 import express from "express";
+
 // Route Controllers
 import {
     createSnippet,
@@ -13,11 +14,10 @@ import {
 import {
     createSnippetSchema,
     updateSnippetSchema,
-} from "../validators/body.validator.js";
+} from "../../validators/body.validator.js";
 
 // MiddleWares
-import { checkUserAuthentication } from "../middlewares/auth.middleware.js";
-import { validateSchema } from "../middlewares/validator.middleware.js";
+import { validateSchema } from "../../middlewares/validator.middleware.js";
 
 const router = express.Router();
 

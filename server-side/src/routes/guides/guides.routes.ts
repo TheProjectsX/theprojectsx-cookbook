@@ -1,7 +1,12 @@
 import express from "express";
-import { getGuidePage } from "./guides.controller.js";
+
+// Route Controllers
+import { getAllGuides, getGuidePage } from "./guides.controller.js";
 
 const router = express.Router();
+
+// Get All Guides
+router.get("/", getAllGuides);
 
 // Get guide page
 router.get("/:category/:tag", getGuidePage);

@@ -1,17 +1,18 @@
 import type { Request, Response, NextFunction } from "express";
-import { createError } from "../utils/index.js";
 import { StatusCodes } from "http-status-codes";
-import { GuideModel } from "../models/guide.js";
-import { CategoryModel } from "../models/category.js";
-import { SectionModel } from "../models/section.js";
+
+import { createError } from "../../utils/index.js";
+import { GuideModel } from "../../models/guide.js";
+import { CategoryModel } from "../../models/category.js";
+import { SectionModel } from "../../models/section.js";
 import mongoose from "mongoose";
-import { AvatarModel } from "../models/avatars.js";
+import { AvatarModel } from "../../models/avatars.js";
 import {
     getCountOverviewPipeline,
     getGuideByCatPipeline,
     getUsersPipeline,
-} from "../db/pipelines.js";
-import { UserModel } from "../models/user.js";
+} from "../../db/pipelines.js";
+import { UserModel } from "../../models/user.js";
 
 // -------- Statistics --------
 
@@ -41,7 +42,7 @@ export const getStatistics = async (
         res.status(StatusCodes.OK).json({
             success: true,
             statusCode: StatusCodes.OK,
-            message: "Data Parsed Successfully",
+            message: "Data fetched Successfully",
             countOverview,
             guidesByCategory,
             latestGuides,
@@ -49,7 +50,7 @@ export const getStatistics = async (
     } catch (error: any) {
         next(
             createError(
-                "Failed to parse Data",
+                "Failed to fetch Data",
                 StatusCodes.INTERNAL_SERVER_ERROR,
                 error.message
             )
@@ -112,7 +113,7 @@ export const getCategories = async (
         res.status(StatusCodes.OK).json({
             success: true,
             statusCode: StatusCodes.OK,
-            message: "Categories parsed successfully",
+            message: "Categories fetched successfully",
             data: categories,
         });
     } catch (error: any) {
@@ -309,7 +310,7 @@ export const getGuide = async (
         res.status(StatusCodes.OK).json({
             success: true,
             statusCode: StatusCodes.OK,
-            message: "Guides parsed successfully",
+            message: "Guides fetched successfully",
             ...guide.toObject(),
         });
     } catch (error: any) {
@@ -495,7 +496,7 @@ export const getSection = async (
         res.status(StatusCodes.OK).json({
             success: true,
             statusCode: StatusCodes.OK,
-            message: "Section parsed successfully",
+            message: "Section fetched successfully",
             ...guide.toObject(),
         });
     } catch (error: any) {
