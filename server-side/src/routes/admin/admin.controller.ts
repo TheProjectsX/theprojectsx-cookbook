@@ -143,12 +143,7 @@ export const updateCategory = async (
     const { name } = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return next(
-            createError("Validation error occurred.", StatusCodes.BAD_REQUEST, {
-                field: "id",
-                message: "Invalid Category ID provided",
-            })
-        );
+        return next(createError("Category not Found", StatusCodes.NOT_FOUND));
     }
 
     try {
@@ -185,12 +180,7 @@ export const deleteCategory = async (
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return next(
-            createError("Validation error occurred.", StatusCodes.BAD_REQUEST, {
-                field: "id",
-                message: "Invalid Category ID provided",
-            })
-        );
+        return next(createError("Category not Found", StatusCodes.NOT_FOUND));
     }
 
     try {
@@ -292,12 +282,7 @@ export const getGuide = async (
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return next(
-            createError("Validation error occurred.", StatusCodes.BAD_REQUEST, {
-                field: "id",
-                message: "Invalid Guide ID provided",
-            })
-        );
+        return next(createError("Guide not Found", StatusCodes.NOT_FOUND));
     }
 
     try {
@@ -334,12 +319,7 @@ export const updateGuide = async (
     const { title } = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return next(
-            createError("Validation error occurred.", StatusCodes.BAD_REQUEST, {
-                field: "id",
-                message: "Invalid Guide ID provided",
-            })
-        );
+        return next(createError("Guide not Found", StatusCodes.NOT_FOUND));
     }
 
     try {
@@ -378,12 +358,7 @@ export const deleteGuide = async (
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return next(
-            createError("Validation error occurred.", StatusCodes.BAD_REQUEST, {
-                field: "id",
-                message: "Invalid Guide ID provided",
-            })
-        );
+        return next(createError("Guide not Found", StatusCodes.NOT_FOUND));
     }
 
     try {
@@ -433,12 +408,7 @@ export const createSection = async (
     const { title, content } = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(guideId)) {
-        return next(
-            createError("Validation error occurred.", StatusCodes.BAD_REQUEST, {
-                field: "id",
-                message: "Invalid Guide ID provided",
-            })
-        );
+        return next(createError("Guide not Found", StatusCodes.NOT_FOUND));
     }
 
     try {
@@ -476,12 +446,7 @@ export const getSection = async (
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return next(
-            createError("Validation error occurred.", StatusCodes.BAD_REQUEST, {
-                field: "id",
-                message: "Invalid Guide ID provided",
-            })
-        );
+        return next(createError("Section not Found", StatusCodes.NOT_FOUND));
     }
 
     try {
@@ -520,12 +485,7 @@ export const updateSection = async (
     const { title, content } = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return next(
-            createError("Validation error occurred.", StatusCodes.BAD_REQUEST, {
-                field: "id",
-                message: "Invalid Section ID provided",
-            })
-        );
+        return next(createError("Guide not Found", StatusCodes.NOT_FOUND));
     }
 
     try {
@@ -564,12 +524,7 @@ export const deleteSection = async (
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return next(
-            createError("Validation error occurred.", StatusCodes.BAD_REQUEST, {
-                field: "id",
-                message: "Invalid Section ID provided",
-            })
-        );
+        return next(createError("Guide not Found", StatusCodes.NOT_FOUND));
     }
 
     try {
@@ -637,12 +592,7 @@ export const updateAvatar = async (
     const { url, name } = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return next(
-            createError("Validation error occurred.", StatusCodes.BAD_REQUEST, {
-                field: "id",
-                message: "Invalid Section ID provided",
-            })
-        );
+        return next(createError("Avatar not Found", StatusCodes.NOT_FOUND));
     }
 
     try {
@@ -678,12 +628,7 @@ export const deleteAvatar = async (
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return next(
-            createError("Validation error occurred.", StatusCodes.BAD_REQUEST, {
-                field: "id",
-                message: "Invalid Section ID provided",
-            })
-        );
+        return next(createError("Avatar not Found", StatusCodes.NOT_FOUND));
     }
 
     try {

@@ -187,12 +187,7 @@ export const updateSnippet = async (
     const { title, snippet } = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(snippetId)) {
-        return next(
-            createError("Validation error occurred.", StatusCodes.BAD_REQUEST, {
-                field: "id",
-                message: "Invalid snippet ID provided",
-            })
-        );
+        return next(createError("Snippet not Found", StatusCodes.NOT_FOUND));
     }
 
     try {
@@ -236,12 +231,7 @@ export const deleteSnippet = async (
     const snippetId = req.params.id;
 
     if (!mongoose.Types.ObjectId.isValid(snippetId)) {
-        return next(
-            createError("Validation error occurred.", StatusCodes.BAD_REQUEST, {
-                field: "id",
-                message: "Invalid snippet ID provided",
-            })
-        );
+        return next(createError("Snippet not Found", StatusCodes.NOT_FOUND));
     }
 
     try {
