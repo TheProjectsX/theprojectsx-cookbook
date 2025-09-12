@@ -1,4 +1,3 @@
-import { MdArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
 import "./styles.css";
 
 /**
@@ -38,15 +37,19 @@ const Pagination = ({
     totalPages,
     navigation = "icons-and-label",
     hideNumbers = false,
+    range = 2,
+    className = "",
 }: {
     currentPage: number;
     onPageChange: (page: number) => void;
     totalPages: number;
     navigation?: "icons" | "label" | "icons-and-label" | "none";
     hideNumbers?: boolean;
+    range?: number;
+    className?: string;
 }) => {
     return (
-        <div className="flex items-center">
+        <div className={`flex items-center ${className}`}>
             {/* Previous Button */}
             {navigation !== "none" && (
                 <button
@@ -55,7 +58,20 @@ const Pagination = ({
                     onClick={() => onPageChange(currentPage - 1)}
                 >
                     {(navigation === "icons-and-label" ||
-                        navigation === "icons") && <MdArrowBackIosNew />}
+                        navigation === "icons") && (
+                        <svg
+                            stroke="currentColor"
+                            fill="currentColor"
+                            strokeWidth="0"
+                            viewBox="0 0 24 24"
+                            height="1em"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path fill="none" d="M0 0h24v24H0z"></path>
+                            <path d="M17.77 3.77 16 2 6 12l10 10 1.77-1.77L9.54 12z"></path>
+                        </svg>
+                    )}
                     {(navigation === "icons-and-label" ||
                         navigation === "label") &&
                         "Previous"}
@@ -64,7 +80,7 @@ const Pagination = ({
 
             {/* Numbers */}
             {!hideNumbers &&
-                rangeAround(currentPage, 2, totalPages).map((page) => (
+                rangeAround(currentPage, range, totalPages).map((page) => (
                     <button
                         key={page}
                         className="pagination--nav pagination--nav-numbers"
@@ -86,7 +102,20 @@ const Pagination = ({
                         navigation === "label") &&
                         "Next"}
                     {(navigation === "icons-and-label" ||
-                        navigation === "icons") && <MdArrowForwardIos />}
+                        navigation === "icons") && (
+                        <svg
+                            stroke="currentColor"
+                            fill="currentColor"
+                            strokeWidth="0"
+                            viewBox="0 0 24 24"
+                            height="1em"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path fill="none" d="M0 0h24v24H0V0z"></path>
+                            <path d="M6.23 20.23 8 22l10-10L8 2 6.23 3.77 14.46 12z"></path>
+                        </svg>
+                    )}
                 </button>
             )}
         </div>

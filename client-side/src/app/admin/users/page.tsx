@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
-import Title from "../title";
+import React, { useState } from "react";
+import Title from "../components/title";
 import { useFetchUsersQuery } from "@/store/features/admin/adminApiSlice";
 import LoadingPlaceholder from "@/components/LoadingPlaceholder";
 
@@ -55,7 +55,7 @@ const Users = () => {
                                     snippetCount: number;
                                 }) => (
                                     <tr key={user._id}>
-                                        <td className="py-3 px-6 whitespace-nowrap">
+                                        <td className="py-3 px-6 whitespace-nowrap font-medium">
                                             {user.name}
                                         </td>
                                         <td className="py-3 px-6 whitespace-nowrap">

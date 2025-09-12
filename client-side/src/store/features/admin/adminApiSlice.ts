@@ -35,7 +35,7 @@ const adminApiSlice = baseApiSlice.injectEndpoints({
                 body: { ...data.body },
             }),
         }),
-        fetchGuide: builder.query({
+        fetchGuideById: builder.query({
             query: (data) => `/admin/guides/${data.id}`,
         }),
         updateGuide: builder.mutation({
@@ -112,7 +112,7 @@ export const {
     useUpdateCategoryMutation,
     useDeleteCategoryMutation,
     useCreateGuideMutation,
-    useFetchGuideQuery,
+    useFetchGuideByIdQuery,
     useUpdateGuideMutation,
     useDeleteGuideMutation,
     useCreateSectionMutation,
