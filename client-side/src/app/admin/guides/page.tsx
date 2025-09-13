@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Title from "../components/title";
+import Title, { TitlePlaceholder } from "../components/title";
 import Pagination from "@/components/Pagination";
 import GuideListView, {
     GuideListViewSkeleton,
@@ -11,6 +11,10 @@ import {
     useFetchGuidesQuery,
 } from "@/store/features/public/publicApiSlice";
 import ManageGuide from "../guides/Manage";
+
+import Swal from "sweetalert2";
+import { useDeleteGuideMutation } from "@/store/features/admin/adminApiSlice";
+import { toast } from "react-toastify";
 
 const Guides = () => {
     const [manageGuide, setManageGuide] = useState<null | { id?: string }>(
@@ -23,6 +27,7 @@ const Guides = () => {
     });
 
     const { data: categoriesResponse } = useFetchCategoriesQuery({});
+    const [deleteGuide] = useDeleteGuideMutation();
 
     const [currentPage, setCurrentPage] = useState<number>(1);
 
@@ -30,6 +35,29 @@ const Guides = () => {
     useEffect(() => {
         setParams((prev) => ({ ...prev, page: currentPage }));
     }, [currentPage]);
+
+    // Handle Delete Guide
+    const handleDeleteGuide = async (id: string) => {
+        const result = await Swal.fire({
+            title: "Are you sure?",
+            text: "Guide will be Permanently Deleted!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes",
+        });
+
+        if (!result.isConfirmed) return;
+
+        try {
+            const response = await deleteGuide({ id });
+            refetch();
+            toast.success(response.data.message);
+        } catch (error: any) {
+            toast.error(error?.data?.message ?? "Something went wrong!");
+        }
+    };
 
     return (
         <>
@@ -78,6 +106,8 @@ const Guides = () => {
                                         id: guide._id,
                                     })
                                 }
+                                onDelete={() => handleDeleteGuide(guide._id)}
+                                admin
                             />
                         )
                     )}

@@ -41,10 +41,9 @@ const ManageGuide = ({
     useEffect(() => {
         if (!isError) return;
 
-        const errorMessage =
-            (error as any)?.data?.message || "Failed to load Guide Data";
-
-        toast.error(errorMessage);
+        toast.error(
+            (error as any)?.data?.message || "Failed to load Guide Data"
+        );
         setStatus(null);
     }, [isError]);
 
