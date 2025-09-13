@@ -1,5 +1,9 @@
 import React from "react";
 
+export const TitlePlaceholder = () => {
+    return <div className="h-10 w-2/5 bg-slate-600 animate-pulse rounded-lg mb-5"></div>;
+};
+
 const Title = ({
     content,
     className = "",
