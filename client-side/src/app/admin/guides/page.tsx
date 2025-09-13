@@ -17,9 +17,7 @@ const Guides = () => {
         null
     );
 
-    const [params, setParams] = useState<Record<any, any>>({
-        limit: 1,
-    });
+    const [params, setParams] = useState<Record<any, any>>();
     const { data: response, refetch } = useFetchGuidesQuery({
         params,
     });
@@ -39,12 +37,23 @@ const Guides = () => {
                 status={manageGuide}
                 setStatus={setManageGuide}
                 refetch={refetch}
+                categories={categoriesResponse?.data ?? []}
             />
 
             <div className="flex items-center justify-between gap-3 mb-5">
                 <Title content="Latest Guides" className="!mb-0" />
 
-                <div>Filters</div>
+                <div className="flex items-center gap-4">
+                    <div>Filters</div>
+                    <div>
+                        <button
+                            className="w-full py-2 px-4 font-medium text-white rounded-md cursor-pointer bg-highlight hover:bg-blue-700 click-effect disabled:cursor-not-allowed disabled:opacity-80"
+                            onClick={() => setManageGuide({})}
+                        >
+                            Add New
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <section className="mb-8 space-y-3">

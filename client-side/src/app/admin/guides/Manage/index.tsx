@@ -5,6 +5,7 @@ import {
     useFetchGuideByIdQuery,
     useUpdateGuideMutation,
 } from "@/store/features/admin/adminApiSlice";
+import ReactSelect from "@theprojectsx/react-select";
 import React, { useEffect } from "react";
 import { IoMdClose } from "react-icons/io";
 import { toast } from "react-toastify";
@@ -13,10 +14,15 @@ const ManageGuide = ({
     status,
     setStatus,
     refetch,
+    categories,
 }: {
     status: null | { id?: string };
     setStatus: React.Dispatch<React.SetStateAction<null | { id?: string }>>;
     refetch: () => void;
+    categories: {
+        _id: string;
+        name: string;
+    }[];
 }) => {
     const { data, isLoading, isError, error } = useFetchGuideByIdQuery(
         { id: status?.id },
@@ -87,14 +93,25 @@ const ManageGuide = ({
                 <form onSubmit={handleSubmit}>
                     <label className="flex flex-col gap-1 mb-4 font-medium text-gray-900 dark:text-white">
                         <p>Category</p>
-                        <input
-                            type="text"
+                        <ReactSelect
                             name="category"
-                            className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:border-light-primary block w-full py-2.5 px-3 dark:bg-slate-700 dark:border-slate-600 dark:placeholder-gray-400 dark:text-white outline-none transition-colors disabled:opacity-75"
-                            placeholder="This will become a dropdown"
-                            disabled={!!status.id && isLoading}
-                            defaultValue={data?.category}
-                            required
+                            options={categories.map((item) => ({
+                                label: item.name,
+                                value: item.name,
+                            }))}
+                            defaultValue={
+                                data?.category
+                                    ? {
+                                          label: data.category,
+                                          value: data.category,
+                                      }
+                                    : {
+                                          label: categories[0].name,
+                                          value: categories[0].name,
+                                      }
+                            }
+                            isSearchable={false}
+                            isClearable={false}
                         />
                     </label>
 
@@ -104,7 +121,7 @@ const ManageGuide = ({
                             type="text"
                             name="tag"
                             className="bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:border-light-primary block w-full py-2.5 px-3 dark:bg-slate-700 dark:border-slate-600 dark:placeholder-gray-400 dark:text-white outline-none transition-colors disabled:opacity-75"
-                            placeholder="Frontend"
+                            placeholder="ReactJS"
                             disabled={!!status.id && isLoading}
                             defaultValue={data?.tag}
                             required
